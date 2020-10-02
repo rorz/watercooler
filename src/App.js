@@ -1,26 +1,35 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useRef } from "react";
+import styled from "styled-components";
+import DailyFrame from "@daily-co/daily-js";
 
-function App() {
+const Page = styled.div`
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const DailyContainer = styled.iframe`
+  width: 100vw;
+  height: 100vh;
+`;
+
+const App = () => {
+  const dailyRef = useRef(null);
+
+  useEffect(() => {
+    const daily = DailyFrame.wrap(dailyRef.current);
+    daily.join({
+      url: "https://k20-watercooler.daily.co/3CMWllZZnVZCUXqq65sL",
+    });
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Page>
+      <DailyContainer ref={dailyRef} />
+    </Page>
   );
-}
+};
 
 export default App;
