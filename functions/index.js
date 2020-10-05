@@ -35,6 +35,8 @@ const DailyApi = axios.create({
   },
 });
 
+const sleep = async (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
 const invalidateCurrentRoom = async () => {
   const configDoc = await ConfigDocRef.get();
   const { activeRoomName } = configDoc.data();
@@ -78,7 +80,11 @@ const getActiveRoom = functions.https.onRequest(async (request, response) => {
     } = request.body;
     try {
       const configDoc = await ConfigDocRef.get();
-      const { passcode: correctPasscode, activeRoomUrl } = configDoc.data();
+      const {
+        passcode: correctPasscode,
+        activeRoomUrl,
+        webhookUrl,
+      } = configDoc.data();
 
       if (providedPasscode !== correctPasscode) {
         response.sendStatus(403);
@@ -93,6 +99,19 @@ const getActiveRoom = functions.https.onRequest(async (request, response) => {
       }
 
       const newRoomUrl = await createNewRoom();
+      if (webhookUrl) {
+        try {
+          axios.post(
+            webhookUrl,
+            { text: `${firstName} (${ventureName}) is at the watercooler...` },
+            {
+              timeout: 4e3,
+            }
+          );
+        } catch (error) {
+          console.error(`Unable to send webhook with error: `, error);
+        }
+      }
       response.json({ url: newRoomUrl });
       return;
     } catch (error) {
@@ -105,6 +124,7 @@ const getActiveRoom = functions.https.onRequest(async (request, response) => {
 const onUserStatusChanged = functions.database
   .ref("/status/{uid}")
   .onUpdate(async (change, context) => {
+    await sleep(10e3);
     const eventStatus = change.after.val();
     const statusSnapshot = await change.after.ref.once("value");
     const latestStatus = statusSnapshot.val();
