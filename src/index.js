@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import { FirebaseAppProvider, useFirebaseApp } from "reactfire";
 import "firebase/firestore";
 import "firebase/database";
+import "firebase/functions"
 
 import "./index.css";
 import App from "./App";

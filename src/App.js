@@ -4,9 +4,15 @@ import DailyFrame from "@daily-co/daily-js";
 import { useFirebaseApp } from "reactfire";
 import Firebase from "firebase";
 import store from "store";
+import axios from "axios";
 import "typeface-fredoka-one";
 
 import SettingsModal from "./components/Settings";
+
+const CloudFunction = axios.create({
+  baseURL: "https://us-central1-watercooler-server.cloudfunctions.net",
+  timeout: 30e3,
+});
 
 const Page = styled.div`
   width: 100vw;
@@ -87,16 +93,34 @@ const App = () => {
       });
   };
 
-  useEffect(() => {
-    if (!currentUser) {
-      setShowSettings(true);
-    } else {
-      console.log(currentUser);
+  const connectToRoom = async () => {
+    try {
+      const { firstName, ventureName, uid, passcode } = currentUser;
+      const activeRoomResponse = await CloudFunction.post("getActiveRoom", {
+        firstName,
+        ventureName,
+        uid,
+        passcode,
+      });
+      console.log("hello");
+      const { url } = activeRoomResponse.data;
+      console.log("url", url);
       monitorPresence(currentUser.uid);
       const daily = DailyFrame.wrap(dailyRef.current);
       daily.join({
         url: "https://k20-watercooler.daily.co/3CMWllZZnVZCUXqq65sL",
       });
+    } catch (error) {
+      console.error(`Unable to connect with error: `, error);
+    }
+  };
+
+  useEffect(() => {
+    if (!currentUser) {
+      setShowSettings(true);
+    } else {
+      console.log(currentUser);
+      connectToRoom();
     }
   }, []);
 
