@@ -108,7 +108,10 @@ const SettingsModal = ({ onSubmit }) => {
             onSubmit({ firstName, ventureName, passcode })
           }
         >
-          Walk on over ☕️
+          Walk on over{" "}
+          <span role="img" aria-label="coffee">
+            ☕️
+          </span>
         </Submit>
         <i>
           Please note: if you provide the wrong watercooler code, the page will
