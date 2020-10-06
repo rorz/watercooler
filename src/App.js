@@ -171,9 +171,11 @@ const App = () => {
         console.log("url", url);
         monitorPresence(currentUser.uid);
         const daily = DailyFrame.wrap(dailyRef.current);
-        daily.join({
+        await daily.join({
           url,
+          userName: `${firstName} (${ventureName})`,
         });
+        daily.setShowNamesMode("always");
       } catch (error) {
         if (error.response.status === 403) {
           resetProfile();
@@ -217,7 +219,10 @@ const App = () => {
           </ProfileChip>
         )}
       </Header>
-      <DailyContainer ref={dailyRef} />
+      <DailyContainer
+        ref={dailyRef}
+        allow="microphone; camera; autoplay; display-capture;"
+      />
       {showSettings && <SettingsModal onSubmit={onSettingsChanged} />}
     </Page>
   );

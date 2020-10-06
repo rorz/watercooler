@@ -144,7 +144,7 @@ const onUserStatusChanged = functions.database
       const allStatuses = allStatusesSnapshot.val();
       console.log("Got all statuses: ", JSON.stringify(allStatuses));
       const now = +new Date();
-      const twelveHoursAgo = now - 60 * 60 * 12;
+      const twelveHoursAgo = now - 1e3 * 60 * 60 * 12;
       const activeOnlineStatusesUnfiltered = await Promise.all(
         Object.entries(allStatuses).map(async ([uid, data]) => {
           console.log("Iterating for: ", uid, "With data: ", data);
@@ -154,7 +154,7 @@ const onUserStatusChanged = functions.database
           }
           if (last_changed < twelveHoursAgo) {
             await realtimeDb.ref(`/status/${uid}`).update({
-              status: "offline",
+              state: "offline",
               last_changed: admin.database.ServerValue.TIMESTAMP,
             });
             return null;
