@@ -56,7 +56,7 @@ const createNewRoom = async () => {
   // Daily.co room create
   const newRoomResponse = await DailyApi.post("rooms", {
     properties: {
-      exp: +new Date() + 60 * 60 * 24,
+      exp: +new Date() + 60 * 60 * 24 * 1e-3,
     },
   });
 
