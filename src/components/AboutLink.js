@@ -146,7 +146,9 @@ const AboutLink = ({ darkMode = false }) => {
           P.P.S. If you're interested in reading the code for the watercooler, I
           have made it open source:
         </p>
-        <GitHubButton onClick={() => window.open("https://github.com/rorz")}>
+        <GitHubButton
+          onClick={() => window.open("https://github.com/rorz/watercooler")}
+        >
           <img src={gitHubLogo} />
           View on GitHub
         </GitHubButton>
