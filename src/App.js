@@ -9,6 +9,7 @@ import "typeface-fredoka-one";
 import "fontsource-comic-neue";
 
 import SettingsModal from "./components/Settings";
+import AboutLink from "./components/AboutLink";
 
 const CloudFunction = axios.create({
   baseURL: "https://us-central1-watercooler-server.cloudfunctions.net",
@@ -224,6 +225,7 @@ const App = () => {
         allow="microphone; camera; autoplay; display-capture;"
       />
       {showSettings && <SettingsModal onSubmit={onSettingsChanged} />}
+      <AboutLink darkMode />
     </Page>
   );
 };

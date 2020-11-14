@@ -4,6 +4,8 @@ import styled from "styled-components";
 import "typeface-fredoka-one";
 import "fontsource-comic-neue";
 
+import AboutLink from "./AboutLink";
+
 const SettingsBackground = styled.div`
   display: flex;
   align-items: center;
@@ -108,16 +110,14 @@ const SettingsModal = ({ onSubmit }) => {
             onSubmit({ firstName, ventureName, passcode })
           }
         >
-          Walk on over{" "}
-          <span role="img" aria-label="coffee">
-            ☕️
-          </span>
+          Go to the cooler!
         </Submit>
         <i>
           Please note: if you provide the wrong watercooler code, the page will
           reload, and you'll have to guess again...
         </i>
       </SettingsForm>
+      <AboutLink />
     </SettingsBackground>
   );
 };

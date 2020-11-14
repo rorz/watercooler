@@ -3,6 +3,8 @@ const functions = require("firebase-functions");
 const axios = require("axios").default;
 const cors = require("cors")({ origin: true });
 
+const { generateWebhookPayload } = require("./webhooks");
+
 if (process.env.NODE_ENV === "local") {
   const serviceAccount = require("../priv/sac.json");
   admin.initializeApp({
@@ -100,14 +102,14 @@ const getActiveRoom = functions.https.onRequest(async (request, response) => {
 
       const newRoomUrl = await createNewRoom();
       if (webhookUrl) {
+        const webhookPayload = generateWebhookPayload({
+          person: `${firstName} (${ventureName})`,
+          webhookUrl,
+        });
         try {
-          axios.post(
-            webhookUrl,
-            { text: `${firstName} (${ventureName}) is at the watercooler...` },
-            {
-              timeout: 4e3,
-            }
-          );
+          await axios.post(webhookUrl, webhookPayload, {
+            timeout: 4e3,
+          });
         } catch (error) {
           console.error(`Unable to send webhook with error: `, error);
         }
