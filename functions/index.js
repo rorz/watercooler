@@ -6,17 +6,8 @@ const cors = require("cors")({ origin: true });
 const { generateWebhookPayload } = require("./webhooks");
 
 if (process.env.NODE_ENV === "local") {
-  const serviceAccount = require("../priv/sac.json");
-  admin.initializeApp({
-    credential: serviceAccount,
-    authDomain: "watercooler-server.firebaseapp.com",
-    databaseURL: "https://watercooler-server.firebaseio.com",
-    projectId: "watercooler-server",
-    storageBucket: "watercooler-server.appspot.com",
-    messagingSenderId: "556168356557",
-    appId: "1:556168356557:web:19ec26b47f48ee98613f84",
-    measurementId: "G-V76RTVP79E",
-  });
+  const { config: firebaseAppConfig } = require("./priv/firebase-app-config");
+  admin.initializeApp(firebaseAppConfig);
 } else {
   admin.initializeApp();
 }

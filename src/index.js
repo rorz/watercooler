@@ -9,15 +9,22 @@ import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 
+const {
+  REACT_APP_F_API_KEY: apiKey,
+  REACT_APP_F_DATABASE_URL: databaseURL,
+  REACT_APP_F_PROJECT_ID: projectId,
+  REACT_APP_F_APP_ID: appId,
+} = process.env;
+
 const firebaseConfig = {
-  apiKey: "AIzaSyBZMjNXzAsvzCGiGC7pg-2Mre1_ix_AtbU",
-  authDomain: "watercooler-server.firebaseapp.com",
-  databaseURL: "https://watercooler-server.firebaseio.com",
-  projectId: "watercooler-server",
-  storageBucket: "watercooler-server.appspot.com",
-  messagingSenderId: "556168356557",
-  appId: "1:556168356557:web:19242f56b9e58b5a613f84",
-  measurementId: "G-7Z07KY8XY4",
+  apiKey,
+  // authDomain: ???
+  databaseURL,
+  projectId,
+  // storageBucket: ???
+  // messagingSenderId: ???
+  appId,
+  // measurementId: ???
 };
 
 ReactDOM.render(
