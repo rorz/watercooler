@@ -15,8 +15,7 @@
     "react-scripts": "3.4.3",
     "reactfire": "^2.0.3",
     "store": "^2.0.12",
-    "styled-components": "^5.2.0",
-    "typeface-comfortaa": "^1.1.4",
+    "styled-components": "^5.2.1",
     "typeface-fredoka-one": "0.0.72"
   },
   "scripts": {
